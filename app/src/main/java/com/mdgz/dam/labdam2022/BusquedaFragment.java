@@ -2,11 +2,22 @@ package com.mdgz.dam.labdam2022;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+
+import com.mdgz.dam.labdam2022.databinding.FragmentBusquedaBinding;
+import com.mdgz.dam.labdam2022.model.Ciudad;
+import com.mdgz.dam.labdam2022.repo.CiudadRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +34,8 @@ public class BusquedaFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private FragmentBusquedaBinding binding;
 
     public BusquedaFragment() {
         // Required empty public constructor
@@ -49,6 +62,9 @@ public class BusquedaFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        binding = FragmentBusquedaBinding.inflate(getLayoutInflater());
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -56,9 +72,40 @@ public class BusquedaFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_busqueda, container, false);
+        binding = FragmentBusquedaBinding.inflate(inflater);
+        View view = binding.getRoot();
+
+        ArrayAdapter<Ciudad> adapter= new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_item,CiudadRepository._CIUDADES);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerCiudad.setAdapter(adapter);
+
+
+        binding.buttonBuscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view1) {
+                Navigation.findNavController(view1).navigate(R.id.action_busquedaFragment_to_resultadoBusquedaFragment);
+            }
+        });
+
+        binding.buttonResetear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view1) {
+                binding.checkBoxHoteles.setChecked(false);
+                binding.checkBoxDepartamentos.setChecked(false);
+                binding.editTextNumberCantidadDePersonas.getText().clear();
+                binding.checkBoxWifi.setChecked(false);
+                binding.editTextNumberDecimalPrecioMinimo.getText().clear();
+                binding.editTextNumberDecimalPrecioMaximo.getText().clear();
+                binding.spinnerCiudad.setSelection(0);
+
+            }
+        });
+
+
+        return view;
     }
+
 }

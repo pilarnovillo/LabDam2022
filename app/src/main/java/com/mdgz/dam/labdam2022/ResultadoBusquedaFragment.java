@@ -3,10 +3,17 @@ package com.mdgz.dam.labdam2022;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.mdgz.dam.labdam2022.databinding.FragmentBusquedaBinding;
+import com.mdgz.dam.labdam2022.databinding.FragmentResultadoBusquedaBinding;
+import com.mdgz.dam.labdam2022.repo.AlojamientoRepository;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +21,8 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class ResultadoBusquedaFragment extends Fragment {
+
+    private FragmentResultadoBusquedaBinding binding;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,7 +67,27 @@ public class ResultadoBusquedaFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_resultado_busqueda, container, false);
+
+        binding = FragmentResultadoBusquedaBinding.inflate(inflater);
+        View view = binding.getRoot();
+
+        AlojamientoRepository daoSeries = new AlojamientoRepository();
+        RecyclerView recyclerView = binding.recyclerResultadoBusqueda;
+        LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        ResultadoBusquedaRecyclerAdapter mAdapter = new ResultadoBusquedaRecyclerAdapter(daoSeries.listaCiudades());
+        recyclerView.setAdapter(mAdapter);
+
+
+        binding.buttonNuevaBusqueda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view1) {
+                Navigation.findNavController(view1).navigate(R.id.action_resultadoBusquedaFragment_to_busquedaFragment);
+            }
+        });
+
+
+
+        return view;
     }
 }

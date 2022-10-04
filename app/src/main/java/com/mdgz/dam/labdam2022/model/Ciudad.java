@@ -1,11 +1,18 @@
 package com.mdgz.dam.labdam2022.model;
 
+
+import androidx.core.util.Consumer;
+
 public class Ciudad {
     Integer id;
     String nombre;
     String abreviatura;
 
     public Ciudad(){}
+
+    public Ciudad(Consumer<Ciudad> c) {
+        c.accept(this);
+    }
 
     public Ciudad(Integer id, String nombre, String abreviatura) {
         this.id = id;
@@ -35,5 +42,10 @@ public class Ciudad {
 
     public void setAbreviatura(String abreviatura) {
         this.abreviatura = abreviatura;
+    }
+
+    @Override
+    public String toString() {
+        return this.getNombre();
     }
 }

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardAlojamiento"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        card_view:cardBackgroundColor="@color/pink"
+        card_view:cardCornerRadius="15dp"
+        card_view:cardElevation="5dp"
+        card_view:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewTipoAlojamiento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:theme="@style/TituloTextView" />
+
+            <TextView
+                android:id="@+id/textViewTitulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:theme="@style/CardTextView"/>
+
+            <TextView
+                android:id="@+id/textViewCosto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/CardTextView"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textViewUbicacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/CardTextView"
+                android:text="TextView" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/buttonVerDetalle"
+                    android:layout_width="195dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="Ver" />
+
+                <ImageButton
+                    android:id="@+id/imageButtonFavorito"
+                    android:layout_width="84dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="80dp"
+                    card_view:srcCompat="@drawable/favorite_border" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

@@ -6,9 +6,129 @@
     tools:context=".BusquedaFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/form_busqueda" />
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/form_busqueda" />
+
+        <CheckBox
+            android:id="@+id/checkBoxHoteles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hoteles" />
+
+        <CheckBox
+            android:id="@+id/checkBoxDepartamentos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Departamentos" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewCantidadDePersonas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cantidad de personas" />
+
+            <EditText
+                android:id="@+id/editTextNumberCantidadDePersonas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="number" />
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/checkBoxWifi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wifi" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewRangoPrecioMin"
+                android:layout_width="163dp"
+                android:layout_height="31dp"
+                android:text="Rango de Precio: min " />
+
+            <EditText
+                android:id="@+id/editTextNumberDecimalPrecioMinimo"
+                android:layout_width="38dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/textViewRangoPrecioMax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="max " />
+
+            <EditText
+                android:id="@+id/editTextNumberDecimalPrecioMaximo"
+                android:layout_width="53dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="numberDecimal" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewCiudad"
+                android:layout_width="110dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Ciudad" />
+
+            <Spinner
+                android:id="@+id/spinnerCiudad"
+                android:layout_width="182dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonResetear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Resetear" />
+
+            <Button
+                android:id="@+id/buttonBuscar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Buscar" />
+        </LinearLayout>
+    </LinearLayout>
 
 </FrameLayout>

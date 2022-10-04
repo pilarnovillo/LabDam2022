@@ -15,8 +15,10 @@ public class AlojamientoRepository {
 
     public static final List<Alojamiento> _ALOJAMIENTOS = List.of(
             new Departamento(1, "Depto 1", "luminoso y amplio", 6, 300.0,true, 1500.0, 3,ubicacion1),
-            new Habitacion(2, "Habitacion 2", "Espectacular suite",4, 1200.0, 2,1,false,new Hotel(1,"Hotel 1",3,ubicacion2) )
-    );
+            new Habitacion(2, "Habitacion 2", "Espectacular suite",4, 1200.0, 2,1,false,new Hotel(1,"Hotel 1",3,ubicacion2) ),
+            new Habitacion(3, "Habitacion 3", "Espectacular suite",4, 1200.0, 2,1,false,new Hotel(1,"Hotel 1",3,ubicacion2) ),
+            new Habitacion(4, "Habitacion 4", "Espectacular suite",4, 1200.0, 2,1,false,new Hotel(1,"Hotel 1",3,ubicacion2) )
+            );
 
     public List<Alojamiento> listaCiudades(){
         return  _ALOJAMIENTOS;

@@ -12,6 +12,12 @@ public abstract class Alojamiento {
     public Double costoDia(){
         return precioBase;
     }
+    public String getDescripcion(){
+        return descripcion;
+    }
+    public String getTitulo(){
+        return titulo;
+    }
 
     public Alojamiento(){
         super();
