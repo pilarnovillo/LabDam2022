@@ -1,0 +1,28 @@
+<resources>
+    <!-- Reply Preference -->
+    <string-array name="MetodoPagoPreferido_entries">
+        <item>Efectivo</item>
+        <item>Tarjeta de crédito</item>
+        <item>Tarjeta de debito</item>
+        <item>Debito por CBU</item>
+    </string-array>
+
+    <string-array name="MetodoPagoPreferido_values">
+        <item>Efectivo</item>
+        <item>TarjetaCredito</item>
+        <item>TarjetaDebito</item>
+        <item>DebitoCBU</item>
+    </string-array>
+
+    <string-array name="monedaPreferida_entries">
+        <item>Pesos</item>
+        <item>Dólares</item>
+        <item>Euros</item>
+    </string-array>
+
+    <string-array name="monedaPreferida_values">
+        <item>pesos</item>
+        <item>dolares</item>
+        <item>euros</item>
+    </string-array>
+</resources>

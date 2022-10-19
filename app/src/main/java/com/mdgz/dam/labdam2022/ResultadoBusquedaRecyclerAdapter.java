@@ -77,11 +77,6 @@ public class ResultadoBusquedaRecyclerAdapter extends RecyclerView.Adapter<Resul
     public ResultadoBusquedaRecyclerAdapter.ResultadoBusquedaViewHolder onCreateViewHolder(ViewGroup parent, int tipo) {
         RowItemBinding binding = RowItemBinding.inflate(LayoutInflater.from(parent.getContext()));
 
-//        return new ViewHolder(binding);
-
-//        View v = LayoutInflater.from(prn.getContext())
-//                .inflate(R.layout.row_item, prn, false);
-
         return new ResultadoBusquedaViewHolder(binding);
     }
 

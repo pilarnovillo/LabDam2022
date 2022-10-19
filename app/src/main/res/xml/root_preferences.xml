@@ -1,0 +1,55 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="Datos Personales">
+
+        <EditTextPreference
+            app:key="correoElectronico"
+            app:title="Correo electrónico"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:key="cuit"
+            app:title="Numero de CUIT"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="Efectivo"
+            app:entries="@array/MetodoPagoPreferido_entries"
+            app:entryValues="@array/MetodoPagoPreferido_values"
+            app:key="metodoPagoPreferido"
+            app:title="Método de pago preferido"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:enabled="false"
+            app:entries="@array/monedaPreferida_entries"
+            app:entryValues="@array/monedaPreferida_values"
+            app:key="monedaPreferida"
+            app:title="Moneda Preferida"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="switch_preference_notificaciones"
+            android:title="Activar las notificaciones" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="check_box_preference_informacion"
+            android:title="Guarde información de uso de la aplicación" />
+
+        <Preference
+            android:key="preference_detalles"
+            android:title="Detalles"
+            android:dependency="check_box_preference_informacion"
+            android:fragment="com.mdgz.dam.labdam2022.DetalleLogsFragment">
+<!--            <intent-->
+<!--                 android:action="android.intent.action.VIEW"-->
+<!--                 android:data="http://www.example.com" />-->
+        </Preference>
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

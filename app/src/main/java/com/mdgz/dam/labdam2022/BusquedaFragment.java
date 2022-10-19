@@ -1,5 +1,6 @@
 package com.mdgz.dam.labdam2022;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,9 +15,15 @@ import android.widget.Button;
 
 import com.mdgz.dam.labdam2022.databinding.FragmentBusquedaBinding;
 import com.mdgz.dam.labdam2022.model.Ciudad;
+import com.mdgz.dam.labdam2022.model.Criterios;
+import com.mdgz.dam.labdam2022.model.LogsBusqueda;
 import com.mdgz.dam.labdam2022.repo.CiudadRepository;
+import com.mdgz.dam.labdam2022.repo.LogsBusquedaRepository;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -86,6 +93,30 @@ public class BusquedaFragment extends Fragment {
         binding.buttonBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view1) {
+
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences("com.mdgz.dam.labdam2022_preferences",0);
+                boolean guradarLogsBusqueda = sharedPreferences.getBoolean("check_box_preference_informacion",false);
+                System.out.println("guradarLogsBusqueda: "+guradarLogsBusqueda);
+                if (guradarLogsBusqueda){
+                    Criterios criterios = new Criterios();
+                    criterios.setHotel(binding.checkBoxHoteles.isChecked());
+                    criterios.setDepartamento(binding.checkBoxDepartamentos.isChecked());
+                    criterios.setCantPersonas(binding.editTextNumberCantidadDePersonas.getText().toString());
+                    criterios.setWifi(binding.checkBoxWifi.isChecked());
+                    criterios.setPrecioMin(binding.editTextNumberDecimalPrecioMinimo.getText().toString());
+                    criterios.setPrecioMax(binding.editTextNumberDecimalPrecioMaximo.getText().toString());
+                    criterios.setCiudad(binding.spinnerCiudad.toString());
+
+                    LogsBusqueda logsBusqueda = new LogsBusqueda();
+                    logsBusqueda.setTimestamp(String.valueOf(new Date()));
+                    logsBusqueda.setCriteriosBusqueda(criterios.toString());
+                    logsBusqueda.setCantResultados(4); //TODO como calcular esto?
+                    logsBusqueda.setTiempoBusqueda("1 second"); //TODO como calcular esto?
+
+                    LogsBusquedaRepository logsBusquedaRepository = new LogsBusquedaRepository(getContext());
+                    logsBusquedaRepository.agregar(logsBusqueda);
+                }
+
                 Navigation.findNavController(view1).navigate(R.id.action_busquedaFragment_to_resultadoBusquedaFragment);
             }
         });
