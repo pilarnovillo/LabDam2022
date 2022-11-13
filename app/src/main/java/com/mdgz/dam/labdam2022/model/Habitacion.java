@@ -1,5 +1,7 @@
 package com.mdgz.dam.labdam2022.model;
 
+import java.util.UUID;
+
 public class Habitacion  extends Alojamiento {
 
     private int camasIndividuales;
@@ -11,7 +13,14 @@ public class Habitacion  extends Alojamiento {
         super();
     }
 
-    public Habitacion(Integer id, String titulo, String descripcion, Integer capacidad, Double precioBase, int camasIndividuales, int camasMatrimoniales, Boolean tieneEstacionamiento, Hotel hotel) {
+    public Habitacion(final String titulo, final String descripcion, final Integer capacidad,
+                      final Double precioBase, final Integer camasIndividuales, final Integer camasMatrimoniales,
+                      final Boolean tieneEstacionamiento, final Hotel hotel) {
+        this(null, titulo, descripcion, capacidad, precioBase, camasIndividuales, camasMatrimoniales,
+                tieneEstacionamiento, hotel);
+    }
+
+    public Habitacion(UUID id, String titulo, String descripcion, Integer capacidad, Double precioBase, int camasIndividuales, int camasMatrimoniales, Boolean tieneEstacionamiento, Hotel hotel) {
         super(id, titulo, descripcion, capacidad, precioBase);
         this.camasIndividuales = camasIndividuales;
         this.camasMatrimoniales = camasMatrimoniales;
@@ -19,11 +28,11 @@ public class Habitacion  extends Alojamiento {
         this.hotel = hotel;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
