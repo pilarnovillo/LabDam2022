@@ -14,11 +14,18 @@ import android.widget.EditText;
 
 import com.mdgz.dam.labdam2022.databinding.FragmentBusquedaBinding;
 import com.mdgz.dam.labdam2022.databinding.FragmentDetalleAlojamientoBinding;
+import com.mdgz.dam.labdam2022.datasource.OnResult;
+import com.mdgz.dam.labdam2022.datasource.room.database.AppDataBase;
+import com.mdgz.dam.labdam2022.factory.FavoritoRepositoryFactory;
 import com.mdgz.dam.labdam2022.model.Alojamiento;
+import com.mdgz.dam.labdam2022.model.Favorito;
 import com.mdgz.dam.labdam2022.model.Ubicacion;
 import com.mdgz.dam.labdam2022.repo.AlojamientoRepository;
+import com.mdgz.dam.labdam2022.repo.FavoritoRepository;
 
 import java.util.Calendar;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -76,12 +83,12 @@ public class DetalleAlojamientoFragment extends Fragment {
         View view = binding.getRoot();
 
         int position = Integer.parseInt(getArguments().getString("position"));
-        Alojamiento alojamiento = AlojamientoRepository._ALOJAMIENTOS.get(position);
+        Alojamiento alojamiento = getArguments().getParcelable("alojamientoSeleccionado");
         binding.textViewDetalleTipoAlojamiento.setText(getArguments().getString("tipoAlojamiento"));
         binding.textViewDetalleTitulo.setText(alojamiento.getTitulo());
-        binding.textViewDetalleCosto.setText("Costo: "+alojamiento.costoDia().toString());
-        Ubicacion ubicacionAlojamiento = alojamiento.getUbicacion();
-        binding.textViewDetalleUbicacion.setText("Ubicacion: "+ubicacionAlojamiento.getCalle()+" "+ubicacionAlojamiento.getNumero()+", "+ubicacionAlojamiento.getCiudad().getNombre());
+        binding.textViewDetalleCosto.setText("Costo: "+alojamiento.getPrecioBase().toString());
+//        reuse with description
+        binding.textViewDetalleUbicacion.setText("Descripcion: "+ alojamiento.getDescripcion());
 
         binding.editTextDateDetalleFechaDesde.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -101,11 +108,75 @@ public class DetalleAlojamientoFragment extends Fragment {
             }
         });
 
+//        binding.imageButtonFavoritoDetalle.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view1) { //TODO aca va la logica de buscar si pertenece a la lista de favoritos
+//                if (binding.imageButtonFavoritoDetalle.isEnabled()){
+//                    binding.imageButtonFavoritoDetalle.setImageResource(R.drawable.favorito);
+//                }
+//            }
+//        });
+
+        FavoritoRepository favoritoRepository = FavoritoRepositoryFactory.create(getContext());
+        String alojamientoId = getArguments().getString("alojamientoId");
+        // TODO hardcodeado como se obtiene de la app?
+        UUID user_id = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
+
+        OnResult<List<Favorito>> isfavoritoCallback = new OnResult<List<Favorito>>() {
+            @Override
+            public void onSuccess(List<Favorito> result) {
+
+                for (Favorito r: result){
+                    if (alojamientoId.equals(r.getAlojamientoID().toString())){
+                        binding.imageButtonFavoritoDetalle.setImageResource(R.drawable.favorito);
+                        binding.imageButtonFavoritoDetalle.setSelected(true);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable exception) {
+                exception.printStackTrace();
+            }
+        };
+
+        AppDataBase.EXECUTOR_DB.execute(() -> favoritoRepository.recuperarFavoritos(isfavoritoCallback));
+
         binding.imageButtonFavoritoDetalle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view1) { //TODO aca va la logica de buscar si pertenece a la lista de favoritos
-                if (binding.imageButtonFavoritoDetalle.isEnabled()){
-                    binding.imageButtonFavoritoDetalle.setImageResource(R.drawable.favorito);
+                if (!binding.imageButtonFavoritoDetalle.isSelected()){
+
+                    OnResult<Favorito> guardarfavoritoCallback = new OnResult<Favorito>() {
+                        @Override
+                        public void onSuccess(Favorito result) {
+                            binding.imageButtonFavoritoDetalle.setImageResource(R.drawable.favorito);
+                            binding.imageButtonFavoritoDetalle.setSelected(true);
+                        }
+
+                        @Override
+                        public void onError(Throwable exception) {
+                            exception.printStackTrace();
+                        }
+                    };
+                    AppDataBase.EXECUTOR_DB.execute(() -> favoritoRepository.guardarFavorito(new Favorito(UUID.fromString(alojamientoId), user_id), guardarfavoritoCallback));
+                }
+                else{
+                    OnResult<Favorito> eliminarfavoritoCallback = new OnResult<Favorito>() {
+                        @Override
+                        public void onSuccess(Favorito result) {
+                            binding.imageButtonFavoritoDetalle.setImageResource(R.drawable.favorite_border);
+                            binding.imageButtonFavoritoDetalle.setSelected(false);
+                        }
+
+                        @Override
+                        public void onError(Throwable exception) {
+                            exception.printStackTrace();
+                        }
+                    };
+                    AppDataBase.EXECUTOR_DB.execute(() -> favoritoRepository.eliminarFavorito(new Favorito(UUID.fromString(alojamientoId), user_id), eliminarfavoritoCallback));
+
+
                 }
             }
         });

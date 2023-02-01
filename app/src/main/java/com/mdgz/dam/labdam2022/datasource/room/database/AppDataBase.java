@@ -45,6 +45,10 @@ public abstract class AppDataBase extends RoomDatabase {
     public static synchronized AppDataBase getInstance(final Context context) {
         if (instance == null) {
             instance = buildDatabase(context);
+
+            //Hace una consulta inicial que permite que se cree la base de datos (es la forma de activar el onCreate del mRoomCallback)
+            Runnable r = () -> instance.alojamientoDAO().recuperarAlojamientos();
+            instance.getQueryExecutor().execute(r);
         }
         return instance;
     }

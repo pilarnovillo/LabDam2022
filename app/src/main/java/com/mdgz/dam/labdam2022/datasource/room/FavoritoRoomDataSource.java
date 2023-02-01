@@ -53,4 +53,15 @@ public class FavoritoRoomDataSource implements FavoritoDataSource {
             callback.onError(e);
         }
     }
+
+    @Override
+    public void eliminarFavorito(Favorito favorito, OnResult<Favorito> callback) {
+        try {
+            final FavoritoEntity fe = FavoritoMapper.toEntity(favorito);
+            favoritoDAO.eliminar(fe);
+            callback.onSuccess(favorito);
+        } catch (final Exception e) {
+            callback.onError(e);
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package com.mdgz.dam.labdam2022.datasource.room.dao;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
@@ -13,9 +14,14 @@ public interface FavoritoDAO {
     @Insert()
     public void insertar(FavoritoEntity favorito);
 
+    @Delete
+    void eliminar(FavoritoEntity favorito);
+
     @Query("SELECT * FROM favoritoentity")
     FavoritoEntity[] recuperarFavoritos();
 
     @Query("SELECT * FROM favoritoentity where usuarioID=:usuarioID")
     FavoritoEntity recuperarFavoritos(UUID usuarioID);
+
+
 }

@@ -1,16 +1,23 @@
 package com.mdgz.dam.labdam2022;
 
+import static com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG;
+import static com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT;
+
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.mdgz.dam.labdam2022.databinding.FragmentBusquedaBinding;
 import com.mdgz.dam.labdam2022.databinding.FragmentResultadoBusquedaBinding;
 import com.mdgz.dam.labdam2022.repo.AlojamientoRepository;
@@ -23,6 +30,7 @@ import com.mdgz.dam.labdam2022.repo.AlojamientoRepository;
 public class ResultadoBusquedaFragment extends Fragment {
 
     private FragmentResultadoBusquedaBinding binding;
+    private ListadoAlojamientoViewModel viewmodel;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -71,12 +79,12 @@ public class ResultadoBusquedaFragment extends Fragment {
         binding = FragmentResultadoBusquedaBinding.inflate(inflater);
         View view = binding.getRoot();
 
-        AlojamientoRepository daoSeries = new AlojamientoRepository();
-        RecyclerView recyclerView = binding.recyclerResultadoBusqueda;
-        LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        ResultadoBusquedaRecyclerAdapter mAdapter = new ResultadoBusquedaRecyclerAdapter(daoSeries.listaCiudades());
-        recyclerView.setAdapter(mAdapter);
+//        AlojamientoRepository daoSeries = new AlojamientoRepository();
+//        RecyclerView recyclerView = binding.recyclerResultadoBusqueda;
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+//        recyclerView.setLayoutManager(layoutManager);
+//        ResultadoBusquedaRecyclerAdapter mAdapter = new ResultadoBusquedaRecyclerAdapter(daoSeries.listaCiudades(getContext()));
+//        recyclerView.setAdapter(mAdapter);
 
 
         binding.buttonNuevaBusqueda.setOnClickListener(new View.OnClickListener() {
@@ -89,5 +97,32 @@ public class ResultadoBusquedaFragment extends Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull final View view, final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
+        viewmodel = new ViewModelProvider(this, new ListadoAlojamientoViewModelFactory(getContext())).get(
+                ListadoAlojamientoViewModel.class);
+        viewmodel.alojamientoCollection.observe(getViewLifecycleOwner(), alojamientos -> {
+            RecyclerView recyclerView = binding.recyclerResultadoBusqueda;
+            LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+            recyclerView.setLayoutManager(layoutManager);
+            ResultadoBusquedaRecyclerAdapter mAdapter = new ResultadoBusquedaRecyclerAdapter(alojamientos);
+            recyclerView.setAdapter(mAdapter);
+        });
+
+        viewmodel.error.observe(getViewLifecycleOwner(), error -> {
+            if (error != null) {
+                Snackbar.make(view, "Algo salio mal: " + error, LENGTH_LONG).show();
+                Log.e("ERROR DATA", "Algo salio mal", error);
+            }
+        });
+
+        viewmodel.recuperarAlojamientos();
+
+
     }
 }

@@ -1,33 +1,52 @@
 package com.mdgz.dam.labdam2022.repo;
 
+import android.content.Context;
+
+import com.mdgz.dam.labdam2022.datasource.AlojamientoDataSource;
+import com.mdgz.dam.labdam2022.datasource.OnResult;
+import com.mdgz.dam.labdam2022.datasource.room.AlojamientoRoomDataSource;
 import com.mdgz.dam.labdam2022.model.Alojamiento;
 import com.mdgz.dam.labdam2022.model.Departamento;
 import com.mdgz.dam.labdam2022.model.Habitacion;
 import com.mdgz.dam.labdam2022.model.Hotel;
 import com.mdgz.dam.labdam2022.model.Ubicacion;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class AlojamientoRepository {
+// Aca decimos que el repository implementa el ds para de forma
+// facil nos exponga todos los metodos pero no es necesario y podría
+// no ser lo que buscamos ( ej: exponer menos metodos o componer metodos del o los datasource)
+public class AlojamientoRepository implements AlojamientoDataSource {
+    private final AlojamientoDataSource ds;
 
-    private static final Ubicacion ubicacion1 = new Ubicacion(-42.6,-38.3,"San Martin","1989",CiudadRepository._CIUDADES.get(0));
-    private static final Ubicacion ubicacion2 = new Ubicacion(-42.25,-38.2,"Lopez y Planes","2007",CiudadRepository._CIUDADES.get(1));
+    public AlojamientoRepository(final AlojamientoDataSource ds) {
+        this.ds = ds;
+    }
 
-    public static final List<Alojamiento> _ALOJAMIENTOS = List.of(
-//            new Departamento(new UUID(), "Depto 1", "luminoso y amplio", 6, 300.0,true, 1500.0, 3,ubicacion1),
-//            new Habitacion(new UUID(), "Habitacion 2", "Espectacular suite",4, 1200.0, 2,1,false,new Hotel(1,"Hotel 1",3,ubicacion2) ),
-//            new Habitacion(3, "Habitacion 3", "Espectacular suite",4, 1200.0, 2,1,false,new Hotel(1,"Hotel 1",3,ubicacion2) ),
-//            new Habitacion(4, "Habitacion 4", "Espectacular suite",4, 1200.0, 2,1,false,new Hotel(1,"Hotel 1",3,ubicacion2) )
-            );
+    @Override
+    public void guardarHabitacion(final Habitacion habitacion, final OnResult<Habitacion> callback) {
+        ds.guardarHabitacion(habitacion, callback);
+    }
 
-    public static final List<Departamento> _DEPARTAMENTOS = List.of(
-            );
+    @Override
+    public void guardarDepartamento(final Departamento departamento, final OnResult<Departamento> callback) {
+        ds.guardarDepartamento(departamento, callback);
+    }
 
-    public static final List<Habitacion> _HABITACIONES = List.of(
-            );
+    @Override
+    public void recuperarHabitaciones(final OnResult<List<Habitacion>> callback) {
+        ds.recuperarHabitaciones(callback);
+    }
 
-    public List<Alojamiento> listaCiudades(){
-        return  _ALOJAMIENTOS;
+    @Override
+    public void recuperarDepartamentos(final OnResult<List<Departamento>> callback) {
+        ds.recuperarDepartamentos(callback);
+    }
+
+    @Override
+    public void recuperarAlojaientos(final OnResult<List<Alojamiento>> callback) {
+        ds.recuperarAlojaientos(callback);
     }
 }
